@@ -109,7 +109,7 @@ def pretrain(
                     attention_mask = attention_mask.cuda()
                     labels = labels.cuda()
 
-                loss = model(input_ids, attention_mask=attention_mask, labels=labels, head="mlm")["loss"]
+                loss = model(input_ids, attention_mask=attention_mask, labels=labels, head="mlm")[0]
                 val_loss += loss.item()
 
         avg_val_loss = val_loss / max(val_steps, 1)
