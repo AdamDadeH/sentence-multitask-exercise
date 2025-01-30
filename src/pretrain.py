@@ -85,7 +85,7 @@ def pretrain(
                 labels = labels.cuda()
 
             optimizer.zero_grad()
-            loss = model(input_ids, attention_mask=attention_mask, labels=labels)["mlm"]["loss"]
+            loss = model(input_ids, attention_mask=attention_mask, labels=labels, head="mlm")[0]
             loss.backward()
             optimizer.step()
             scheduler.step()

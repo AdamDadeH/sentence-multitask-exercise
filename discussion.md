@@ -6,7 +6,19 @@
 
 # Step 0 : Setup
 
+Pretraining and embedding examples are run via : 
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
 
+python3 src/pretrain.py 
+```
+
+Generating discussion pdf : 
+```bash
+pandoc discussion.md -o discussion.pdf
+```
 
 # Step 1 : Sentence Transformer Model : 
 
