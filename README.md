@@ -6,9 +6,10 @@ python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
 
-python3 src/pretrain.py
-
+cd src
+python3 pretrain.py
 python3 test_embeddings.py
+python3 multitask_test.py
 ```
 
 Generating discussion pdf : 
