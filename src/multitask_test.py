@@ -9,10 +9,9 @@ class SentenceClassificationHead(nn.Module):
         self.classifier = nn.Linear(config.hidden_size, num_labels)
         self.num_labels = num_labels
 
-    def forward(self, hidden_states, labels=None):
+    def forward(self, hidden_states, labels=None, attention_mask=None):
         # Use [CLS] token output (first token)
         pooled_output = hidden_states[:, 0]
-        pooled_output = self.dropout(pooled_output)
         logits = self.classifier(pooled_output)
         
         loss = None
@@ -29,8 +28,7 @@ class TokenClassificationHead(nn.Module):
         self.classifier = nn.Linear(config.hidden_size, num_labels)
         self.num_labels = num_labels
 
-    def forward(self, hidden_states, labels=None):
-        hidden_states = self.dropout(hidden_states)
+    def forward(self, hidden_states, labels=None, attention_mask=None):
         logits = self.classifier(hidden_states)
         # Get attention mask from hidden states by checking for padding
         attention_mask = (hidden_states.sum(dim=-1) != 0).long()
@@ -59,10 +57,10 @@ def test_model_forward():
     # Initialize config and model
     config = BaseTransformerConfig(
         vocab_size=30522,  # Standard BERT vocab size
-        hidden_size=256,
+        hidden_size=512,
         num_hidden_layers=2,
         num_attention_heads=4,
-        intermediate_size=512,
+        intermediate_size=2048,
         max_position_embeddings=512
     )
     
@@ -99,7 +97,7 @@ def test_model_forward():
 
     both_output = model(input_ids = dummy_input_ids, attention_mask = dummy_attention_mask, labels = {"classification": dummy_classification_labels, "token_classification": dummy_token_labels})
     print(both_output)
-    
+
 if __name__ == "__main__":
     test_model_forward()
 
